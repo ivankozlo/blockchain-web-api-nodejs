@@ -22,10 +22,11 @@
 const express = require('express')
 const router = express.Router({ mergeParams: true })
 
-router.route('/hello').get(function(req, res) {
-  res.status(200).send("Hello world!")
-})
-router.route('/test').get(function(req, res) {
-  res.status(200).send("Hello world, this is the test route")
+const blockchainController = require('../controllers/blockchain.controller')
+
+router.route('/test').get(async function(req, res) {
+  let ret = await blockchainController.blockchain()
+  console.log(ret)
+  res.status(200).send(ret)
 })
 module.exports = router
