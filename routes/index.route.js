@@ -3,11 +3,9 @@ const router = express.Router()
 
 const blockchainController = require('../controllers/blockchain.controller')
 
-// router.route('/api/test').get(async function(req, res) {
-//   let ret = await blockchainController.blockchain()
-//   console.log(ret)
-//   res.status(200).send(ret)
-// })
+router.route('/api').get(async function(req, res) {
+  res.status(200).send("You hit the API endpoint of blockchain")
+})
 
 router.route('/api/mine').post(function(req, res) {
   let ret = blockchainController.mine(req.body)
@@ -29,4 +27,8 @@ router.route('/api/nodes').get(function(req, res) {
   res.status(200).send(ret)
 })
 
+router.route('/api/resolve').get(async function(req, res) {
+  let ret = await blockchainController.resolve()
+  res.status(200).send(ret)
+})
 module.exports = router

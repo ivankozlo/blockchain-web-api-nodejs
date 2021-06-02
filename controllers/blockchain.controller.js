@@ -1,12 +1,7 @@
 const { Block, Transaction, Blockchain } = require('../models/blockchain.model')
+const axios = require('axios')
 
 let blockchain = new Blockchain(new Block())
-
-// async function blockchain() {
-//   await new Promise((resolve, reject) => setTimeout(resolve, 100))
-//   let tr1 = new Transaction('Ivan', 'Denis', 100, 'domestic')
-//   return JSON.stringify(tr1)
-// }
 
 const mine = (data) => {
   let transaction = new Transaction(data.from, data.to, data.amount, data.transactionType)
@@ -28,10 +23,22 @@ const getBlockchain = () => {
   return blockchain
 }
 
+async function resolve(){
+  let nodes = blockchain.nodes
+  for(let i = 0; i < nodes.length; i++){
+    let res = await axios.get(`${nodes[i].address}/api/blockchain`)
+    if(res.data.blocks.length > blockchain.blocks.length){
+      blockchain.blocks = [...res.data.blocks]
+    }
+  }
+  return blockchain
+}
+
 module.exports = {
   blockchain,
   getBlockchain,
   mine,
   registerNodes,
-  getNodes
+  getNodes,
+  resolve
 }
