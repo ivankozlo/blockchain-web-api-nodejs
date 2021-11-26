@@ -25,11 +25,16 @@ const getBlockchain = () => {
 
 async function resolve(){
   let nodes = blockchain.nodes
-  for(let i = 0; i < nodes.length; i++){
-    let res = await axios.get(`${nodes[i].address}/api/blockchain`)
-    if(res.data.blocks.length > blockchain.blocks.length){
-      blockchain.blocks = [...res.data.blocks]
+  try{
+    for(let i = 0; i < nodes.length; i++){
+      let res = await axios.get(`${nodes[i].address}/api/blockchain`)
+      if(res.data.blocks.length > blockchain.blocks.length){
+        blockchain.blocks = [...res.data.blocks]
+      }
     }
+  }catch(e){
+    console.log(e)
+    return e
   }
   return blockchain
 }
