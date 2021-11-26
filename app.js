@@ -15,6 +15,10 @@ app.get('/', (req, res) => {
   res.status(200).send('Welcome to Blockchain web API!')
 })
 
+app.get('/test', (req, res) => {
+  res.sendFile(__dirname + '/test/index.html')
+})
+
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())

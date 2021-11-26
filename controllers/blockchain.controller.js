@@ -3,6 +3,11 @@ const axios = require('axios')
 
 let blockchain = new Blockchain(new Block())
 
+const init = (difficulty) => {
+  blockchain = new Blockchain(new Block(), difficulty)
+  return blockchain
+}
+
 const mine = (data) => {
   let transaction = new Transaction(data.from, data.to, data.amount, data.transactionType)
   let block = new Block()
